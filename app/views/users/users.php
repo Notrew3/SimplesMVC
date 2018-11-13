@@ -4,6 +4,8 @@ $users = new Usuario();
 
 $users_data = $users->getData();
 
+
+
 ?>
 <h1>
 An example getting data from DB
