@@ -9,7 +9,7 @@ class Template {
 	/**
 	 * [PT-BR]
 	 * dados para serem exibidos na view
-	 * @var array **apenas valores ou arrays de até 2 níveis (Ainda pensando em como suportar arrays de diverssos níveis)
+	 * @var array **apenas arrays com indice e valor 
 	 */
 	private $data = array();
 	/**
@@ -111,28 +111,44 @@ class Template {
 	/**
 	 * [PT-BR]
 	 * busca por blocos {$valor} dentro da string retornada pelo metodo loadArchive() e troca pelos
-	 * valores das variaveis salvas no array $data. 
+	 * valores das variaveis salvas no array $data usando o metodo replaceHtmlData. 
 	 * @return string **a string com o HTML a ser interpretado pelo browser (em breve este metodo nao usara o echo como saida e sim return para ser usado em outra classe)
 	 */
 	public function publish(){
 		try{
 			$archive = $this->loadArchive();
-			foreach ($this->getData() as $key => $value) {
-				if(is_array($value)){
-					foreach ($value as $k => $v) {
-						$temp = '{$'.$key.'[\''.$k.'\']}';						
-						$archive = str_replace($temp, $v, $archive);
-					}					
-				}else{			
-					$temp = '{$'.$key.'}';
-					$archive = str_replace($temp, $value, $archive);
-				}										
-			}			
+			$archive = $this->replaceHtmlData($archive, $this->getData(), null, true);
 			echo $archive;
 		}catch(Exception $error){
 			echo $error->getMessage();
 		}
 	}
+
+	/**
+	 * [PT-BR]
+	 * faz a troca de valores de variaveis no html do template pelas variaveis armazenadas em $data
+	 * @param  string  $archive **a string do arquivo.html
+	 * @param  array  $array   **variavel $data
+	 * @param  string  $key     [description]
+	 * @param  boolean $root    [description]
+	 * @return string          **a string do arquivo.html com as variaveis trocadas
+	 * @author - José Oliveira - https://www.facebook.com/zeeh.tecnologia
+	 */
+	public function replaceHtmlData($archive, $array, $key = null, $root = false) {
+  foreach ($array as $k => $v) {
+    if (is_array($v)) {
+      $archive = $this->replaceHtmlData($archive, $v, $k);
+    } else {
+      if ($root === true) {
+        $temp = '{$'.$k.'}';
+      } else {
+        $temp = '{$'.$key.'[\''.$k.'\']}';
+      }
+      $archive = str_replace($temp, $v, $archive);
+    }
+  }
+  return $archive;
+}
 	
 	
 }
