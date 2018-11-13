@@ -120,16 +120,14 @@ class Template {
 			foreach ($this->getData() as $key => $value) {
 				if(is_array($value)){
 					foreach ($value as $k => $v) {
-						$temp = '{$'.$key.'[\''.$k.'\']}';
-						var_dump($temp);
+						$temp = '{$'.$key.'[\''.$k.'\']}';						
 						$archive = str_replace($temp, $v, $archive);
 					}					
 				}else{			
 					$temp = '{$'.$key.'}';
 					$archive = str_replace($temp, $value, $archive);
 				}										
-			}
-			var_dump($archive);
+			}			
 			echo $archive;
 		}catch(Exception $error){
 			echo $error->getMessage();
