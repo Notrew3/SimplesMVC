@@ -24,12 +24,7 @@ $arr = array(
 								),
 	'contato' => array(
 									'telefone' => '1111-2222',
-									'email' => 'ewerton@email.com',
-									'redes' => array(
-																'facebook' => 'fb.com/ewerton',
-																'twitter' => 'tw.com/eweron',
-																'instagran' => 'insta.com/ewerton'
-														 )
+									'email' => 'ewerton@email.com'
 								)
 );
 
