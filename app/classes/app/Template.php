@@ -116,8 +116,8 @@ class Template {
 	 */
 	public function publish(){
 		try{
-			$archive = $this->loadArchive();
-			$archive = $this->replaceHtmlData($archive, $this->getData(), null, true);
+			$archive = $this->loadArchive();			
+			$archive = $this->replaceHtmlData($archive, $this->getData(), null, true);			
 			echo $archive;
 		}catch(Exception $error){
 			echo $error->getMessage();
@@ -135,20 +135,33 @@ class Template {
 	 * @author - José Oliveira - https://www.facebook.com/zeeh.tecnologia
 	 */
 	public function replaceHtmlData($archive, $array, $key = null, $root = false) {
-  foreach ($array as $k => $v) {
-    if (is_array($v)) {
-      $archive = $this->replaceHtmlData($archive, $v, $k);
+	foreach ($array as $k => $v) {		
+		if (is_array($v)) {
+      $archive = $this->replaceHtmlData($archive, $v, $k);      
     } else {
       if ($root === true) {
-        $temp = '{$'.$k.'}';
+        $temp = '{$'.$k.'}';     
+        
       } else {
-        $temp = '{$'.$key.'[\''.$k.'\']}';
+        $temp = '{$'.$key.'[\''.$k.'\']}';  
+
       }
       $archive = str_replace($temp, $v, $archive);
     }
   }
   return $archive;
 }
+
+
+
+/*
+Criar um metodo que:
+ 1- verifica se tem {loop=$variavel} e {/loop}
+ 2- troque o que estiver escrito no {loop=$variavel} por <?php for($i = 0; $i < count($variavel); $i++){ ?>
+ 3- troque o que estiver escrito {/loop} por <?php } ?>
+ 4- verifique tudo q esta entre {loop=$variavel} e {/loop} a procura de {$variavel} ou {$variavel['indice']} e troque por
+ <?php $variavel[$i] ?> ou <?php $variavel['indice'][$i] ?>
+ */
 	
 	
 }

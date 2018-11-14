@@ -16,8 +16,7 @@
 spl_autoload_register(function ($nomeClasse){
 	$folders = scandir('./app/classes');	
 	unset($folders[0]);
-	unset($folders[1]);
-	
+	unset($folders[1]);	
 	if (file_exists($nomeClasse.".php") === true) {
 		require_once($nomeClasse.".php");
 	}else{
